@@ -17,36 +17,8 @@ export default class Movies extends Component {
 
   componentDidMount() {
     this.setState({
-      movies: this.adjustedMovies(0)
+      movies: getMovies()
     });
-  }
-
-  componentWillReceiveProps(nextProps) {
-    // this.setState({
-    //   movies:
-    //     nextProps.genreId === 0
-    //       ? getMovies()
-    //       : getMovies().filter(movie => movie.genre._id === nextProps.genreId)
-    // });
-
-    this.setState({
-      movies: this.adjustedMovies(nextProps.genreId)
-    });
-  }
-
-  adjustedMovies(genreId) {
-    let filteredMovies =
-      genreId === 0
-        ? getMovies()
-        : getMovies().filter(movie => movie.genre._id === genreId);
-
-    let sortedMovies = _.orderBy(
-      filteredMovies,
-      [this.state.sortColumn.path],
-      [this.state.sortColumn.order]
-    );
-    console.log(this.state.sortColumn.path);
-    return sortedMovies;
   }
 
   handleDelete = id => {
@@ -70,19 +42,30 @@ export default class Movies extends Component {
   };
 
   handleSort = path => {
-    this.setState({ sortColumn: { path: path, order: "asc" } }, () =>
-      console.log(this.state.sortColumn)
-    );
+    this.setState({ sortColumn: { path: path, order: "asc" } });
   };
 
   render() {
     const { movies, pageSize, currentPage } = this.state;
+    const { genreId } = this.props;
+    let rawMovies = [...movies];
+    let filteredMovies =
+      genreId === 0
+        ? rawMovies
+        : rawMovies.filter(movie => movie.genre._id === genreId);
+
+    let sortedMovies = _.orderBy(
+      filteredMovies,
+      [this.state.sortColumn.path],
+      [this.state.sortColumn.order]
+    );
+
     let moviesPage = [];
-    moviesPage = movies.slice(
+    moviesPage = sortedMovies.slice(
       (currentPage - 1) * pageSize,
       pageSize * currentPage
     );
-    return movies.length === 0 ? (
+    return sortedMovies.length === 0 ? (
       <h2>No Movies Found!</h2>
     ) : (
       <div>

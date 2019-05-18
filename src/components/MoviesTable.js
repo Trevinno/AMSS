@@ -12,10 +12,10 @@ export default function MoviesTable({ moviesPage, onLike, onDelete, onSort }) {
           <th onClick={() => onSort("genre.name")} className="col">
             Genre
           </th>
-          <th onClick={() => onSort("stock")} className="col">
+          <th onClick={() => onSort("numberInStock")} className="col">
             Stock
           </th>
-          <th onClick={() => onSort("rate")} className="col">
+          <th onClick={() => onSort("dailyRentalRate")} className="col">
             Rate
           </th>
           <th className="col">Like</th>
