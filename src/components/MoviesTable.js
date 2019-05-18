@@ -1,15 +1,23 @@
 import React from "react";
 import Like from "./common/Like";
 
-export default function MoviesTable({ moviesPage, onLike, onDelete }) {
+export default function MoviesTable({ moviesPage, onLike, onDelete, onSort }) {
   return (
     <table className="table">
       <thead>
         <tr>
-          <th className="col">Genre</th>
-          <th className="col">Title</th>
-          <th className="col">Stock</th>
-          <th className="col">Rate</th>
+          <th onClick={() => onSort("title")} className="col">
+            Title
+          </th>
+          <th onClick={() => onSort("genre.name")} className="col">
+            Genre
+          </th>
+          <th onClick={() => onSort("stock")} className="col">
+            Stock
+          </th>
+          <th onClick={() => onSort("rate")} className="col">
+            Rate
+          </th>
           <th className="col">Like</th>
           <th />
         </tr>

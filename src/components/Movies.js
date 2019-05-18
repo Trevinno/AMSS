@@ -2,24 +2,51 @@ import React, { Component } from "react";
 import { getMovies } from "../services/fakeMovieService";
 import Pagination from "./common/Pagination";
 import MoviesTable from "./MoviesTable";
+import _ from "lodash";
 
 export default class Movies extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      movies: getMovies(),
+      movies: [],
       pageSize: 4,
-      currentPage: 1
+      currentPage: 1,
+      sortColumn: { path: "title", order: "asc" }
     };
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentDidMount() {
     this.setState({
-      movies:
-        nextProps.genreId === 0
-          ? getMovies()
-          : getMovies().filter(movie => movie.genre._id === nextProps.genreId)
+      movies: this.adjustedMovies(0)
     });
+  }
+
+  componentWillReceiveProps(nextProps) {
+    // this.setState({
+    //   movies:
+    //     nextProps.genreId === 0
+    //       ? getMovies()
+    //       : getMovies().filter(movie => movie.genre._id === nextProps.genreId)
+    // });
+
+    this.setState({
+      movies: this.adjustedMovies(nextProps.genreId)
+    });
+  }
+
+  adjustedMovies(genreId) {
+    let filteredMovies =
+      genreId === 0
+        ? getMovies()
+        : getMovies().filter(movie => movie.genre._id === genreId);
+
+    let sortedMovies = _.orderBy(
+      filteredMovies,
+      [this.state.sortColumn.path],
+      [this.state.sortColumn.order]
+    );
+    console.log(this.state.sortColumn.path);
+    return sortedMovies;
   }
 
   handleDelete = id => {
@@ -42,6 +69,12 @@ export default class Movies extends Component {
     this.setState({ currentPage: pageNum });
   };
 
+  handleSort = path => {
+    this.setState({ sortColumn: { path: path, order: "asc" } }, () =>
+      console.log(this.state.sortColumn)
+    );
+  };
+
   render() {
     const { movies, pageSize, currentPage } = this.state;
     let moviesPage = [];
@@ -59,6 +92,7 @@ export default class Movies extends Component {
           moviesPage={moviesPage}
           onLike={this.handleLike}
           onDelete={this.handleDelete}
+          onSort={this.handleSort}
         />
 
         <Pagination
