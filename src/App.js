@@ -1,26 +1,33 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from "react";
+import "./App.css";
+import Movies from "./components/Movies";
+import Genres from "./components/Genres";
 
 class App extends Component {
+  state = {
+    genresToShow: 0
+  };
+
+  handleFilter = id => {
+    this.setState({ genresToShow: id }, () =>
+      console.log("handleFilter", this.state)
+    );
+  };
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
+      <main role="main" className="container">
+        <div className="row">
+          <div className="col-2">
+            <Genres
+              onSelectGenre={this.handleFilter}
+              selectedGenreId={this.state.genresToShow}
+            />
+          </div>
+          <div className="col-10">
+            <Movies genreId={this.state.genresToShow} />
+          </div>
+        </div>
+      </main>
     );
   }
 }
