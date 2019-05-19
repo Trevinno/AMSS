@@ -42,7 +42,14 @@ export default class Movies extends Component {
   };
 
   handleSort = path => {
-    this.setState({ sortColumn: { path: path, order: "asc" } });
+    const { sortColumn } = this.state;
+    if (sortColumn.path === path) {
+      this.setState({
+        sortColumn: { path, order: sortColumn.order === "asc" ? "desc" : "asc" }
+      });
+    } else {
+      this.setState({ sortColumn: { path: path, order: "asc" } });
+    }
   };
 
   render() {
@@ -65,6 +72,7 @@ export default class Movies extends Component {
       (currentPage - 1) * pageSize,
       pageSize * currentPage
     );
+
     return sortedMovies.length === 0 ? (
       <h2>No Movies Found!</h2>
     ) : (
