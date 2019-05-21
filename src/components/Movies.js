@@ -41,15 +41,8 @@ export default class Movies extends Component {
     this.setState({ currentPage: pageNum });
   };
 
-  handleSort = path => {
-    const { sortColumn } = this.state;
-    if (sortColumn.path === path) {
-      this.setState({
-        sortColumn: { path, order: sortColumn.order === "asc" ? "desc" : "asc" }
-      });
-    } else {
-      this.setState({ sortColumn: { path: path, order: "asc" } });
-    }
+  handleSort = sortColumn => {
+    this.setState({ sortColumn });
   };
 
   render() {
@@ -81,6 +74,7 @@ export default class Movies extends Component {
 
         <MoviesTable
           moviesPage={moviesPage}
+          sortColumn={this.state.sortColumn}
           onLike={this.handleLike}
           onDelete={this.handleDelete}
           onSort={this.handleSort}
