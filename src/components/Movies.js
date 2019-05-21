@@ -45,7 +45,7 @@ export default class Movies extends Component {
     this.setState({ sortColumn });
   };
 
-  render() {
+  adjustMovies = () => {
     const { movies, pageSize, currentPage } = this.state;
     const { genreId } = this.props;
     let rawMovies = [...movies];
@@ -66,15 +66,22 @@ export default class Movies extends Component {
       pageSize * currentPage
     );
 
-    return sortedMovies.length === 0 ? (
+    return { moviesPage: moviesPage, moviesCount: sortedMovies.length };
+  };
+
+  render() {
+    const { sortColumn, pageSize, currentPage } = this.state;
+    const { moviesPage, moviesCount } = this.adjustMovies();
+
+    return moviesCount === 0 ? (
       <h2>No Movies Found!</h2>
     ) : (
       <div>
-        <h2>Showing {movies.length} movies in the database</h2>
+        <h2>Showing {moviesCount} movies in the database</h2>
 
         <MoviesTable
           moviesPage={moviesPage}
-          sortColumn={this.state.sortColumn}
+          sortColumn={sortColumn}
           onLike={this.handleLike}
           onDelete={this.handleDelete}
           onSort={this.handleSort}
@@ -83,7 +90,7 @@ export default class Movies extends Component {
         <Pagination
           pageSize={pageSize}
           currentPage={currentPage}
-          itemsCount={movies.length}
+          itemsCount={moviesCount}
           onPageChange={this.handlePageChange}
         />
       </div>
