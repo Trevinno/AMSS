@@ -1,35 +1,29 @@
 import React, { Component } from "react";
-import "./App.css";
-import Movies from "./components/Movies";
-import Genres from "./components/Genres";
+import { Redirect, Route, Switch } from "react-router-dom";
+import MoviesContainer from "./MoviesContainer";
+import Customers from "./components/Customers";
+import Rentals from "./components/Rentals";
+import NotFound from "./components/common/NotFound";
+import NavBar from "./components/NavBar";
+import MovieDetails from "./components/MovieDetails";
 
-class App extends Component {
-  state = {
-    genresToShow: 0
-  };
-
-  handleFilter = id => {
-    this.setState({ genresToShow: id }, () =>
-      console.log("handleFilter", this.state)
-    );
-  };
+export default class App extends Component {
   render() {
     return (
-      <main role="main" className="container">
-        <div className="row">
-          <div className="col-2">
-            <Genres
-              onSelectGenre={this.handleFilter}
-              selectedGenreId={this.state.genresToShow}
-            />
-          </div>
-          <div className="col-10">
-            <Movies genreId={this.state.genresToShow} />
-          </div>
-        </div>
-      </main>
+      <React.Fragment>
+        <NavBar />
+        <main role="main" className="container">
+          <Switch>
+            <Route path="/customers/" component={Customers} />
+            <Route path="/rentals/" component={Rentals} />
+            <Route path="/not-found/" component={NotFound} />
+            <Route path="/movies/:id" component={MovieDetails} />
+            <Route path="/movies" component={MoviesContainer} />
+            <Redirect from="/" to="/movies" />
+            <Redirect to="/not-found/" />
+          </Switch>
+        </main>
+      </React.Fragment>
     );
   }
 }
-
-export default App;
