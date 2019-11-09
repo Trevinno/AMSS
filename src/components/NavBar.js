@@ -24,15 +24,25 @@ export default function NavBar() {
             Home
           </NavLink>
 
-          <NavLink to="/customers" className="nav-item nav-link">
-            Customers
+          <NavLink to="/feed" className="nav-item nav-link">
+            Feed
           </NavLink>
 
-          <NavLink to="/rentals" className="nav-item nav-link">
-            Rentals
+          <NavLink to="/" className="nav-item nav-link">
+            Gallery
           </NavLink>
-          <NavLink to="/login" className="nav-item nav-link">
+          <NavLink to="/portfolio" className="nav-item nav-link">
+            Portfolio
+          </NavLink>
+          <NavLink to="/signup" className="nav-item nav-link" style={{
+            left: '700px'
+          }}>
             Login
+          </NavLink>
+          <NavLink to="/" className="nav-item nav-link" style={{
+            left: '700px'
+          }}>
+            Cart
           </NavLink>
         </div>
       </div>

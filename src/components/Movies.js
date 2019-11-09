@@ -76,6 +76,7 @@ export default class Movies extends Component {
     return moviesCount === 0 ? (
       <h2>No Movies Found!</h2>
     ) : (
+      <div className='container'>
       <div>
         <h2>Showing {moviesCount} movies in the database</h2>
 
@@ -93,6 +94,7 @@ export default class Movies extends Component {
           itemsCount={moviesCount}
           onPageChange={this.handlePageChange}
         />
+      </div>
       </div>
     );
   }
