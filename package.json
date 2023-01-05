@@ -15,7 +15,7 @@
     "react-dom": "^16.8.2",
     "react-mdl": "^1.11.0",
     "react-router-dom": "^5.0.0",
-    "react-scripts": "2.1.5",
+    "react-scripts": "5.0.1",
     "styled": "^1.0.0",
     "styled-components": "^4.4.0"
   },
